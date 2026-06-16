@@ -8,10 +8,11 @@ Documentação da API REST para gerenciamento de contatos. Desenvolvida com **Sp
 
 - [Visão Geral](#visão-geral)
 - [Tecnologias](#tecnologias)
-- [Instalação e Setup](#instalação-e-setup)
+- [Estrutura do Projeto](#estrutura-do-Projeto)
 - [Endpoints](#endpoints)
 - [Modelos de Dados](#modelos-de-dados)
 - [Tratamento de Erros](#tratamento-de-erros)
+- [Instalação e Setup](#instalação-e-setup)
 - [Importar no Postman/Insomnia](#importar-no-postmaninsomnia)
 - [Testes](#testes)
 
@@ -45,74 +46,52 @@ API especializada em operações CRUD para contatos. Permite:
 
 ---
 
-## Instalação e Setup
+## Estrutura do Projeto
 
-### Pré-requisitos
-
-```bash
-# Verificar Java 21
-java -version
-
-# Verificar Maven
-mvn --version
-
-# PostgreSQL
-
-docker run -d \
-  --name pg-agenda \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=1234 \
-  -e POSTGRES_DB=agenda-contatos \
-  -p 5432:5432 \
-  postgres:18
 ```
-
-
-### Executar Aplicação
-
-```bash
-# Modo desenvolvimento (com hot reload)
-./mvnw spring-boot:run
-
-# Compilar e empacotar
-./mvnw clean package
-
-# Executar JAR
-java -jar target/agenda-contatos-0.0.1-SNAPSHOT.jar
+agenda-contatos/
+│
+├── src/main/java/com/kassia/agendacontatos/
+│   ├── AgendaContatosApplication.java      # Main
+│   ├── config/
+│   │   └── GlobalExceptionHandler.java      # Tratamento global de erros
+│   ├── controller/
+│   │   └── ContatoController.java           # REST endpoints
+│   ├── dto/
+│   │   ├── ContatoRequest.java              # DTO de entrada
+│   │   └── ContatoResponse.java             # DTO de saída
+│   ├── entity/
+│   │   └── Contato.java                    # Entidade JPA
+│   ├── exception/
+│   │   └── RecursoNaoEncontrado.java       # Exceção customizada
+│   ├── repository/
+│   │   └── ContatoRepository.java           # Interface CRUD
+│   └── service/
+│       ├── ContatoService.java              # Contrato de serviço
+│       └── impl/
+│           └── ContatoServiceImpl.java       # Implementação
+│
+├── src/main/resources/
+│   ├── application.properties                # Config da aplicação
+│   └── db/migration/
+│       └── V1__create_table_contatos.sql    # Migration Flyway
+│
+├── src/test/java/
+│   └── com/kassia/agendacontatos/
+│       ├── AgendaContatosApplicationTests.java
+│       ├── controller/
+│       │   └── ContatoControllerTest.java
+│       └── service/
+│           └── impl/
+│               └── ContatoServiceImplTest.java
+│
+├── pom.xml                                   # Dependências Maven
+├── README.md                                 # Esta documentação
+└── postman-collection.json                   # Coleção Postman
 ```
-
-A API estará disponível em: **http://localhost:8080**
-
-### Popular o banco de dados com o script SQL
-
-O repositório contém o arquivo `init_postgres.sql` na raiz do projeto que cria a tabela `contatos` e insere registros de exemplo. Há duas formas comuns de executar esse script:
-
-- Usando o cliente `psql` (no host):
-
-```bash
-# se você usa a mesma senha do exemplo (1234):
-PGPASSWORD=1234 psql -h localhost -U postgres -d agenda-contatos -f init_postgres.sql
-```
-
-- Usando um container Docker do PostgreSQL (supondo que o container foi iniciado com o nome `pg-agenda`):
-
-Opção A — enviar o arquivo para o comando psql no container (recomendado quando o arquivo está no host):
-
-```bash
-cat init_postgres.sql | docker exec -i pg-agenda psql -U postgres -d agenda-contatos
-```
-
-Opção B — copiar o arquivo para dentro do container e executar lá:
-
-```bash
-docker cp init_postgres.sql pg-agenda:/init_postgres.sql
-docker exec -it pg-agenda psql -U postgres -d agenda-contatos -f /init_postgres.sql
-```
-
-Observações:
-- Ajuste o nome do banco, usuário e senha conforme suas variáveis de ambiente ou configuração em `src/main/resources/application.properties`.
 
 ---
+
 
 ## Endpoints
 
@@ -428,6 +407,74 @@ Quando campos não passam na validação:
 ```
 
 ---
+## Instalação e Setup
+
+### Pré-requisitos
+
+```bash
+# Verificar Java 21
+java -version
+
+# Verificar Maven
+mvn --version
+
+# PostgreSQL
+
+docker run -d \
+  --name pg-agenda \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=1234 \
+  -e POSTGRES_DB=agenda-contatos \
+  -p 5432:5432 \
+  postgres:18
+```
+
+
+### Executar Aplicação
+
+```bash
+# Modo desenvolvimento (com hot reload)
+./mvnw spring-boot:run
+
+# Compilar e empacotar
+./mvnw clean package
+
+# Executar JAR
+java -jar target/agenda-contatos-0.0.1-SNAPSHOT.jar
+```
+
+A API estará disponível em: **http://localhost:8080**
+
+### Popular o banco de dados com o script SQL
+
+O repositório contém o arquivo `init_postgres.sql` na raiz do projeto que cria a tabela `contatos` e insere registros de exemplo. Há duas formas comuns de executar esse script:
+
+- Usando o cliente `psql` (no host):
+
+```bash
+# se você usa a mesma senha do exemplo (1234):
+PGPASSWORD=1234 psql -h localhost -U postgres -d agenda-contatos -f init_postgres.sql
+```
+
+- Usando um container Docker do PostgreSQL (supondo que o container foi iniciado com o nome `pg-agenda`):
+
+Opção A — enviar o arquivo para o comando psql no container (recomendado quando o arquivo está no host):
+
+```bash
+cat init_postgres.sql | docker exec -i pg-agenda psql -U postgres -d agenda-contatos
+```
+
+Opção B — copiar o arquivo para dentro do container e executar lá:
+
+```bash
+docker cp init_postgres.sql pg-agenda:/init_postgres.sql
+docker exec -it pg-agenda psql -U postgres -d agenda-contatos -f /init_postgres.sql
+```
+
+Observações:
+- Ajuste o nome do banco, usuário e senha conforme suas variáveis de ambiente ou configuração em `src/main/resources/application.properties`.
+
+---
 
 ## Importar no Postman/Insomnia
 
@@ -481,51 +528,7 @@ Quando campos não passam na validação:
 
 ---
 
-## Estrutura do Projeto
 
-```
-agenda-contatos/
-│
-├── src/main/java/com/kassia/agendacontatos/
-│   ├── AgendaContatosApplication.java      # Main
-│   ├── config/
-│   │   └── GlobalExceptionHandler.java      # Tratamento global de erros
-│   ├── controller/
-│   │   └── ContatoController.java           # REST endpoints
-│   ├── dto/
-│   │   ├── ContatoRequest.java              # DTO de entrada
-│   │   └── ContatoResponse.java             # DTO de saída
-│   ├── entity/
-│   │   └── Contato.java                    # Entidade JPA
-│   ├── exception/
-│   │   └── RecursoNaoEncontrado.java       # Exceção customizada
-│   ├── repository/
-│   │   └── ContatoRepository.java           # Interface CRUD
-│   └── service/
-│       ├── ContatoService.java              # Contrato de serviço
-│       └── impl/
-│           └── ContatoServiceImpl.java       # Implementação
-│
-├── src/main/resources/
-│   ├── application.properties                # Config da aplicação
-│   └── db/migration/
-│       └── V1__create_table_contatos.sql    # Migration Flyway
-│
-├── src/test/java/
-│   └── com/kassia/agendacontatos/
-│       ├── AgendaContatosApplicationTests.java
-│       ├── controller/
-│       │   └── ContatoControllerTest.java
-│       └── service/
-│           └── impl/
-│               └── ContatoServiceImplTest.java
-│
-├── pom.xml                                   # Dependências Maven
-├── README.md                                 # Esta documentação
-└── postman-collection.json                   # Coleção Postman
-```
-
----
 
 ## 🚀 Início Rápido
 
