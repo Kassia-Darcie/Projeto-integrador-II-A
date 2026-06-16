@@ -36,7 +36,7 @@ public class ContatoServiceImpl implements ContatoService {
     @Override
     public ContatoResponse buscarContatoPorId(Long id) {
         return contatoRepository.findById(id)
-                .map(contato -> new ContatoResponse(contato.getId(), contato.getNome(), contato.getEmail(), contato.getTelefone()))
+                .map(ContatoResponse::new)
                 .orElseThrow(() -> new RecursoNaoEncontrado("Contato não encontrado com id: " + id));
     }
 
@@ -63,6 +63,9 @@ public class ContatoServiceImpl implements ContatoService {
 
     @Override
     public void deletarContato(Long id) {
+        if (!contatoRepository.existsById(id)) {
+            throw new RecursoNaoEncontrado("Contato não encontrado com id: " + id);
+        }
         contatoRepository.deleteById(id);
     }
 }
