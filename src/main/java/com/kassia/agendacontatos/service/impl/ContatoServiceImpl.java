@@ -3,6 +3,7 @@ package com.kassia.agendacontatos.service.impl;
 import com.kassia.agendacontatos.dto.ContatoRequest;
 import com.kassia.agendacontatos.dto.ContatoResponse;
 import com.kassia.agendacontatos.entity.Contato;
+import com.kassia.agendacontatos.exception.RecursoNaoEncontrado;
 import com.kassia.agendacontatos.repository.ContatoRepository;
 import com.kassia.agendacontatos.service.ContatoService;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class ContatoServiceImpl implements ContatoService {
 
     @Override
     public ContatoResponse atualizarContato(Long id, ContatoRequest contatoRequest) {
-        Contato contatoParaAtualizar = contatoRepository.findById(id).orElseThrow();
+        Contato contatoParaAtualizar = contatoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontrado("Contato não encontrado com id: " + id));
         contatoParaAtualizar.setNome(contatoRequest.nome());
         contatoParaAtualizar.setEmail(contatoRequest.email());
         contatoParaAtualizar.setTelefone(contatoRequest.telefone());
@@ -36,7 +37,7 @@ public class ContatoServiceImpl implements ContatoService {
     public ContatoResponse buscarContatoPorId(Long id) {
         return contatoRepository.findById(id)
                 .map(contato -> new ContatoResponse(contato.getId(), contato.getNome(), contato.getEmail(), contato.getTelefone()))
-                .orElseThrow();
+                .orElseThrow(() -> new RecursoNaoEncontrado("Contato não encontrado com id: " + id));
     }
 
     @Override
