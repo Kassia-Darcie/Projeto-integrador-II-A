@@ -1,0 +1,609 @@
+{
+  "info": {
+    "_postman_id": "agenda-contatos-api",
+    "name": "Agenda de Contatos API",
+    "description": "Collection para testar os endpoints da API de Agenda de Contatos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Criar Contato",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"João Silva\",\n  \"telefone\": \"11999999999\",\n  \"email\": \"joao@example.com\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/contatos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "contatos"
+          ]
+        },
+        "description": "Cria um novo contato com os dados fornecidos"
+      },
+      "response": [
+        {
+          "name": "Sucesso (201)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João Silva\",\n  \"telefone\": \"11999999999\",\n  \"email\": \"joao@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contatos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": 1,\n  \"nome\": \"João Silva\",\n  \"telefone\": \"11999999999\",\n  \"email\": \"joao@example.com\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Listar Todos os Contatos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/contatos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "contatos"
+          ]
+        },
+        "description": "Retorna uma lista com todos os contatos cadastrados"
+      },
+      "response": [
+        {
+          "name": "Sucesso (200)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contatos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "[\n  {\n    \"id\": 1,\n    \"nome\": \"João Silva\",\n    \"telefone\": \"11999999999\",\n    \"email\": \"joao@example.com\"\n  },\n  {\n    \"id\": 2,\n    \"nome\": \"Maria Santos\",\n    \"telefone\": \"21988888888\",\n    \"email\": \"maria@example.com\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Buscar por Email",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/contatos?email=joao@example.com",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "contatos"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "joao@example.com"
+            }
+          ]
+        },
+        "description": "Busca um contato específico por email (busca exata)"
+      },
+      "response": [
+        {
+          "name": "Sucesso (200)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contatos?email=joao@example.com",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos"
+              ],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "joao@example.com"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "[\n  {\n    \"id\": 1,\n    \"nome\": \"João Silva\",\n    \"telefone\": \"11999999999\",\n    \"email\": \"joao@example.com\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Buscar por Nome (Parcial)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/contatos?nome=maria",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "contatos"
+          ],
+          "query": [
+            {
+              "key": "nome",
+              "value": "maria"
+            }
+          ]
+        },
+        "description": "Busca contatos cujo nome contenha o texto fornecido (case-insensitive)"
+      },
+      "response": [
+        {
+          "name": "Sucesso (200)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contatos?nome=maria",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos"
+              ],
+              "query": [
+                {
+                  "key": "nome",
+                  "value": "maria"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "[\n  {\n    \"id\": 2,\n    \"nome\": \"Maria Santos\",\n    \"telefone\": \"21988888888\",\n    \"email\": \"maria@example.com\"\n  },\n  {\n    \"id\": 3,\n    \"nome\": \"Maria Clara\",\n    \"telefone\": \"21977777777\",\n    \"email\": \"mariaclara@example.com\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Buscar por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/contatos/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "contatos",
+            "1"
+          ]
+        },
+        "description": "Busca um contato específico por ID"
+      },
+      "response": [
+        {
+          "name": "Sucesso (200)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contatos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos",
+                "1"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": 1,\n  \"nome\": \"João Silva\",\n  \"telefone\": \"11999999999\",\n  \"email\": \"joao@example.com\"\n}"
+        },
+        {
+          "name": "Não Encontrado (404)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contatos/999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos",
+                "999"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": 404,\n  \"erro\": \"Contato não encontrado com id: 999\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Atualizar Contato",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"João da Silva\",\n  \"telefone\": \"11888888888\",\n  \"email\": \"joao.silva@example.com\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/contatos/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "contatos",
+            "1"
+          ]
+        },
+        "description": "Atualiza os dados de um contato existente"
+      },
+      "response": [
+        {
+          "name": "Sucesso (200)",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João da Silva\",\n  \"telefone\": \"11888888888\",\n  \"email\": \"joao.silva@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contatos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos",
+                "1"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": 1,\n  \"nome\": \"João da Silva\",\n  \"telefone\": \"11888888888\",\n  \"email\": \"joao.silva@example.com\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Remover Contato",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/contatos/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "contatos",
+            "1"
+          ]
+        },
+        "description": "Remove um contato existente (sem corpo na resposta)"
+      },
+      "response": [
+        {
+          "name": "Sucesso (204 No Content)",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contatos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos",
+                "1"
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "header": [],
+          "body": ""
+        }
+      ]
+    },
+    {
+      "name": "Validação - Telefone Inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Hugo\",\n  \"telefone\": \"123\",\n  \"email\": \"hugo@example.com\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/contatos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "contatos"
+          ]
+        },
+        "description": "Testa validação quando telefone não tem 11 dígitos"
+      },
+      "response": [
+        {
+          "name": "Erro (400 Bad Request)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Hugo\",\n  \"telefone\": \"123\",\n  \"email\": \"hugo@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contatos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": 400,\n  \"erros\": {\n    \"telefone\": \"O telefone deve conter apenas números e ter 11 dígitos\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Validação - Email Inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Ana\",\n  \"telefone\": \"11999999999\",\n  \"email\": \"ana.exemplo.com\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/contatos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "contatos"
+          ]
+        },
+        "description": "Testa validação quando email não tem formato válido"
+      },
+      "response": [
+        {
+          "name": "Erro (400 Bad Request)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Ana\",\n  \"telefone\": \"11999999999\",\n  \"email\": \"ana.exemplo.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contatos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": 400,\n  \"erros\": {\n    \"email\": \"Formato de email inválido\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Validação - Campos Vazios",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"\",\n  \"telefone\": \"\",\n  \"email\": \"\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/contatos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "contatos"
+          ]
+        },
+        "description": "Testa validação quando todos os campos estão vazios"
+      },
+      "response": [
+        {
+          "name": "Erro (400 Bad Request)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"\",\n  \"telefone\": \"\",\n  \"email\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contatos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contatos"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": 400,\n  \"erros\": {\n    \"nome\": \"O nome não pode estar vazio\",\n    \"telefone\": \"O telefone deve conter apenas números e ter 11 dígitos\",\n    \"email\": \"O email não pode estar vazio\"\n  }\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}
+

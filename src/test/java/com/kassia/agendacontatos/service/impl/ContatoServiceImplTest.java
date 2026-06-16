@@ -164,6 +164,7 @@ class ContatoServiceImplTest {
 
     @Test
     void deveDeletarContatoPeloIdentificadorInformado() {
+        when(contatoRepository.existsById(10L)).thenReturn(true);
         contatoService.deletarContato(10L);
 
         verify(contatoRepository).deleteById(10L);
